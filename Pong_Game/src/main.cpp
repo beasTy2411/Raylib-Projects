@@ -1,14 +1,24 @@
-#include<raylib.h>
+#include <raylib.h>
+
+using namespace std;
+
+Color Green = Color{38, 185, 154, 255};
+Color Dark_Green= Color{20, 160, 133, 255};
+Color Light_Green = Color{129, 204, 184, 255};
+Color Yellow = Color{243, 213, 91, 255};
+
+int player_score = 0;
+int cpu_score = 0;
 
 class Ball{
     public: 
     float x, y;
     int speed_x, speed_y;
     int radius;
-
+    
     void Draw()
     {
-        DrawCircle(x, y, radius, WHITE);
+        DrawCircle(x, y, radius, Yellow);
     }
     void update()
     {
@@ -19,10 +29,26 @@ class Ball{
         {
             speed_y *= -1;
         }
-        if(x + radius >= GetScreenWidth() || x - radius <= 0)
+        if(x + radius >= GetScreenWidth())
         {
-            speed_x *= -1;
+            cpu_score++;
+            ResetBall();
         }
+        if(x - radius <= 0)
+        {
+            player_score++;
+            ResetBall();
+        }
+    }
+
+    void ResetBall()
+    {
+        y = GetScreenHeight()/2;
+        x = GetScreenWidth()/2;
+        
+        int speed_choice[2] = {1, -1};
+        speed_x *= speed_choice[GetRandomValue(0,1)];
+        speed_y *= speed_choice[GetRandomValue(0,1)];
     }
 };
 
@@ -50,7 +76,7 @@ class Paddle{
 
     void Draw()
     {
-        DrawRectangle(x,y,width,height,WHITE);
+        DrawRectangleRounded(Rectangle{x, y, width,height}, 0.8, 0,WHITE);
     }
     void Update()
     {
@@ -90,8 +116,6 @@ CPUPaddle cpu;
 
 int main()
 {   
-
-    Color CustomColor = {100,150,100,255};
     const int ScreenWidth = 1280;
     const int ScreenHeight = 800;
     InitWindow(ScreenWidth, ScreenHeight,"My First Raylib Game");
@@ -122,14 +146,28 @@ int main()
         ball.update();
         player.Update();
         cpu.Update(ball.y);
-        
+
+        //Checking for Collision
+        if(CheckCollisionCircleRec(Vector2{ball.x, ball.y}, ball.radius, Rectangle{player.x, player.y, player.width, player.height}))
+        {
+            ball.speed_x *= -1;
+        }
+        if(CheckCollisionCircleRec(Vector2{ball.x, ball.y}, ball.radius, Rectangle{cpu.x, cpu.y, cpu.width, cpu.height}))
+        {
+            ball.speed_x *= -1;
+        }
+
         //3. Drawing
-        ClearBackground(CustomColor);
+        ClearBackground(Dark_Green);
+        DrawRectangle(ScreenWidth/2,  0, ScreenWidth/2, ScreenHeight, Green);
+        DrawCircle(ScreenWidth/2, ScreenHeight/2, 200, Light_Green);
         BeginDrawing();
         DrawLine(ScreenWidth/2, 0, ScreenWidth/2, ScreenHeight ,WHITE);
         ball.Draw();
         player.Draw();
         cpu.Draw();
+        DrawText(TextFormat("%i", cpu_score), ScreenWidth/4 - 20, 20, 80, WHITE);
+        DrawText(TextFormat("%i", player_score), 3 * ScreenWidth/4 - 20, 20, 80, WHITE);
 
         EndDrawing();
     }
