@@ -17,6 +17,7 @@ extern float targetAngle;
 extern Vector2 position;
 extern Vector2 origin;
 extern Bird bird;
+extern Sound jumpSound;
 
 void Bird_Init();
 void Bird_Draw();

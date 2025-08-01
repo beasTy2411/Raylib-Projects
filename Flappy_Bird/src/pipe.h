@@ -25,6 +25,7 @@ extern Rectangle groundBbox;
 extern Rectangle birdBbox;
 extern bool pipeSpawned;
 extern char string[32];
+extern Sound scored;
 
 void Pipe_Init();
 int Pipe_Update(int xShift);

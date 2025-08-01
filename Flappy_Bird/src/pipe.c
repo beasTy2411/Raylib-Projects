@@ -16,6 +16,7 @@ Rectangle src = {0};
 Rectangle groundBbox = {0};
 Rectangle birdBbox = {0};
 char string[32] = {0};
+Sound scored;
 
 void Pipe_Init()
 {
@@ -34,6 +35,7 @@ void Pipe_Init()
         pipes[i].point_awarded = false;
         pipes[i].texture = &text;
     }
+    scored = LoadSound("sounds/score1.wav");
 }
 
 int Pipe_Update(int xShift)
@@ -69,6 +71,7 @@ int Pipe_Update(int xShift)
                 pipes[i].point_awarded = true;
                 // printf("crossed\n");
                 pointScored++;
+                PlaySound(scored);
             }
 
             if (pipes[i].position.x < -pipes[i].texture->width)
@@ -166,4 +169,5 @@ void Pipe_Unload()
 {
     UnloadTexture(text);
     UnloadTexture(invertedTexture);
+    UnloadSound(scored);
 }

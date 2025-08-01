@@ -6,6 +6,7 @@ float targetAngle = 0.f;
 Vector2 position = {0};
 Vector2 origin = {0};
 Bird bird;
+Sound jumpSound;
 
 void Bird_Init()
 {
@@ -18,6 +19,8 @@ void Bird_Init()
     bird.y = 350;
     bird.velocity = 0;
     bird.gravity = 500;
+    jumpSound = LoadSound("sounds/jumpSound.wav");
+    SetSoundVolume(jumpSound, 0.5);
 }
 
 void Bird_Draw()
@@ -38,6 +41,7 @@ void Bird_Update()
     if (IsKeyPressed(KEY_UP))
     {
         bird.velocity = -300;
+        PlaySound(jumpSound);
     }
 
     bird.velocity = bird.velocity + bird.gravity * GetFrameTime();
@@ -66,4 +70,5 @@ void Bird_Collided()
 void Bird_Unload()
 {
     UnloadTexture(bird.bird_texture);
+    UnloadSound(jumpSound);
 }
