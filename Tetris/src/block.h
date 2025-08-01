@@ -9,8 +9,8 @@ class Block
 public:
     Block();
     void Draw(int offsetX, int offsetY);
-    void Move(int rows, int cols);
-    std::vector<Position> GetCellPosition();
+    void Move(int rows, int columns);
+    std::vector<Position> GetCellPositions();
     void Rotate();
     void UndoRotation();
     int id;
@@ -21,5 +21,5 @@ private:
     int rotationState;
     std::vector<Color> colors;
     int rowOffset;
-    int colOffset;
+    int columnOffset;
 };

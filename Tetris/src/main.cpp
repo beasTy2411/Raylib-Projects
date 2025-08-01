@@ -1,10 +1,7 @@
-#include "raylib.h"
+#include <raylib.h>
 #include "game.h"
 #include "colors.h"
 #include <iostream>
-
-#define SCREEN_WIDTH 500
-#define SCREEN_HEIGHT 620
 
 double lastUpdateTime = 0;
 
@@ -21,8 +18,7 @@ bool EventTriggered(double interval)
 
 int main()
 {
-    // Initializing the Window
-    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Tetris");
+    InitWindow(500, 620, "raylib Tetris");
     SetTargetFPS(60);
 
     Font font = LoadFontEx("Font/monogram.ttf", 64, 0, 0);
@@ -31,21 +27,15 @@ int main()
 
     while (WindowShouldClose() == false)
     {
-        // Event Handlings
+        UpdateMusicStream(game.music);
         game.HandleInput();
-
-        // Updates
-        if (EventTriggered(0.3))
+        if (EventTriggered(0.2))
         {
             game.MoveBlockDown();
         }
-        UpdateMusicStream(game.music);
 
-        // Drawing
         BeginDrawing();
         ClearBackground(darkBlue);
-
-        game.Draw();
         DrawTextEx(font, "Score", {365, 15}, 38, 2, WHITE);
         DrawTextEx(font, "Next", {370, 175}, 38, 2, WHITE);
         if (game.gameOver)
@@ -60,11 +50,9 @@ int main()
 
         DrawTextEx(font, scoreText, {320 + (170 - textSize.x) / 2, 65}, 38, 2, WHITE);
         DrawRectangleRounded({320, 215, 170, 180}, 0.3, 6, lightBlue);
-
-        // End Drawing
+        game.Draw();
         EndDrawing();
     }
-    // Close Window
+
     CloseWindow();
-    return 0;
 }

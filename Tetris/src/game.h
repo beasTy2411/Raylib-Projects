@@ -7,28 +7,28 @@ class Game
 public:
     Game();
     ~Game();
-    bool gameOver;
-    int score;
     void Draw();
     void HandleInput();
     void MoveBlockDown();
+    bool gameOver;
+    int score;
     Music music;
 
 private:
-    Grid grid;
-    std::vector<Block> blocks;
-    Block currentBlock;
-    Block nextBlock;
-    std::vector<Block> GetAllBlocks();
-    Sound rotateSound;
-    Sound clearSound;
-    Block GetRandomBlock();
     void MoveBlockLeft();
     void MoveBlockRight();
+    Block GetRandomBlock();
+    std::vector<Block> GetAllBlocks();
     bool IsBlockOutside();
     void RotateBlock();
     void LockBlock();
     bool BlockFits();
     void Reset();
     void UpdateScore(int linesCleared, int moveDownPoints);
+    Grid grid;
+    std::vector<Block> blocks;
+    Block currentBlock;
+    Block nextBlock;
+    Sound rotateSound;
+    Sound clearSound;
 };
