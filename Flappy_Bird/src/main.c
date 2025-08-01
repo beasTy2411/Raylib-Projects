@@ -26,6 +26,8 @@ int main()
     int highScore = 0;
     const char *highScoreFile = "highscore.flb ";
 
+    InitAudioDevice();
+
     bool collided = false;
 
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "New Window");
@@ -217,6 +219,7 @@ int main()
     UnloadTexture(groundTexture);
     Bird_Unload();
     Pipe_Unload();
+    CloseAudioDevice();
     CloseWindow();
     return 0;
 }
